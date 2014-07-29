@@ -1,11 +1,11 @@
 /**
  * This is a generated file. Do not edit or your changes will be lost
  */
-#import "ChrisfjonesTitanium_module_udpModuleAssets.h"
+#import "TiUdpModuleAssets.h"
 
 extern NSData * dataWithHexString (NSString * hexString);
 
-@implementation ChrisfjonesTitanium_module_udpModuleAssets
+@implementation TiUdpModuleAssets
 
 - (NSData*) moduleAsset
 {

@@ -1,39 +1,32 @@
-# titanium_module_udp Module
+# Ti.UDP
 
 ## Description
 
-TODO: Enter your module description here
+Provides access to the UDP protocol for sending packets across a network.
 
-## Accessing the titanium_module_udp Module
+## Methods
 
-To access this module from JavaScript, you would do the following:
-
-	var titanium_module_udp = require("chrisfjones.titanium_module_udp");
-
-The titanium_module_udp variable is a reference to the Module object.	
-
-## Reference
-
-TODO: If your module has an API, you should document
-the reference here.
-
-### ___PROJECTNAMEASIDENTIFIER__.function
-
-TODO: This is an example of a module function.
-
-### ___PROJECTNAMEASIDENTIFIER__.property
-
-TODO: This is an example of a module property.
+### void createSocket(dictionary args)
+Creates a [UDP.Socket][] that you can use to marshal UDP traffic.
 
 ## Usage
 
-TODO: Enter your usage example here
+See example.
 
 ## Author
 
-TODO: Enter your author name, email and other contact
-details you want to share here. 
+Dawson Toth
+
+## Module History
+
+View the [change log](changelog.html) for this module.
+
+## Feedback and Support
+
+Please direct all questions, feedback, and concerns to [info@appcelerator.com](mailto:info@appcelerator.com?subject=iOS%20UDP%20Module).
 
 ## License
 
-TODO: Enter your license/legal information here.
+Copyright(c) 2010-2011 by Appcelerator, Inc. All Rights Reserved. Please see the LICENSE file included in the distribution for further details.
+
+[UDP.Socket]: socket.html

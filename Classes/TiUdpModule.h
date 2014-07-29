@@ -4,12 +4,13 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-#import "TiProxy.h"
+#import "TiModule.h"
+#import "TiBase.h"
+#import "TiHost.h"
+#import "TiUtils.h"
 
-@interface UDPSocketProxy : TiProxy {
-
-@private
-	CFSocketRef _socket;
+@interface TiUdpModule : TiModule 
+{
 }
-- (void) send: (id) args;
+
 @end
