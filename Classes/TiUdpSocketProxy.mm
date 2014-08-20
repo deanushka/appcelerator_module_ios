@@ -13,7 +13,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <netdb.h>
-#import <ifaddrs.h>
 
 
 
@@ -235,14 +234,33 @@ static NSArray* GetBytesFromData(NSData* data)
     
     if (host == nil)
     {
+        
+        
+        // Set socket options
+        // Enable broadcast
+        int broadcastEnable=1;
+        int ret=setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &broadcastEnable, sizeof(broadcastEnable));
+        if (ret) {
+            NSLog(@"Error: Could not open set socket to broadcast mode");
+            close(sock);
+            return;
+        }
+
+        
         struct sockaddr_in destinationAddress;
         socklen_t sockaddr_destaddr_len = sizeof(destinationAddress);
         memset(&destinationAddress, 0, sockaddr_destaddr_len);
         destinationAddress.sin_len = (__uint8_t) sockaddr_destaddr_len;
         destinationAddress.sin_family = AF_INET;
         destinationAddress.sin_port = htons(port);
-        destinationAddress.sin_addr.s_addr = inet_addr(broadcastAddress);
-        //htonl(INADDR_ANY);
+//        destinationAddress.sin_addr.s_addr = INADDR_ANY;
+//        destinationAddress.sin_addr.s_addr = INADDR_ANY;
+     
+        inet_pton(AF_INET, "255.255.255.255", &destinationAddress.sin_addr);
+        
+        //inet_addr(broadcastIP);
+        //htonl(INADDR_BROADCAST);
+
         
         addrPtr = (sockaddr*)&destinationAddress;
         addrLen = sockaddr_destaddr_len;
@@ -586,40 +604,5 @@ static void HostResolveCallback(CFHostRef theHost, CFHostInfoType typeInfo, cons
     }
 }
 
-static NSString * broadcastAddress()
-//Gets Local IP of the device over Wifi
-//Calculates & returns broadcast Address for the network
-{
-    NSString * broadcastAddr= @"Error";
-    struct ifaddrs *interfaces = NULL;
-    struct ifaddrs *temp_addr = NULL;
-    int success = 0;
-    
-    // retrieve the current interfaces - returns 0 on success
-    success = getifaddrs(&interfaces);
-    
-    if (success == 0)
-    {
-        temp_addr = interfaces;
-        
-        while(temp_addr != NULL)
-        {
-            // check if interface is en0 which is the wifi connection on the iPhone
-            if(temp_addr->ifa_addr->sa_family == AF_INET)
-            {
-                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"])
-                {
-                    broadcastAddr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_dstaddr)->sin_addr)];
-                    
-                }
-            }
-            
-            temp_addr = temp_addr->ifa_next;
-        }
-    }
-    
-    freeifaddrs(interfaces);
-    return broadcastAddr;
-}
 
 @end
